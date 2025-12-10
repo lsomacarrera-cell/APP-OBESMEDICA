@@ -76,21 +76,22 @@
       <table class="w-full mb-2">
      <thead>
   <tr class="bg-green-200">
-    <th class="p-2 flex items-center justify-center gap-2">
+  <th class="p-2">
+  <div class="flex items-center justify-center gap-2">
+    <span>Fecha</span>
 
-      <!-- Flecha ascendente -->
+    <!-- Contenedor de flechas -->
+    <div class="flex gap-1">
       <button onclick="ordenarAsc()" class="text-green-700 text-lg font-bold">
         ⬆️
       </button>
-
-      Fecha
-
-      <!-- Flecha descendente -->
       <button onclick="ordenarDesc()" class="text-green-700 text-lg font-bold">
         ⬇️
       </button>
+    </div>
+  </div>
+</th>
 
-    </th>
 
     <th class="p-2">Dieta</th>
     <th class="p-2">Variación</th>
@@ -376,6 +377,7 @@
   </script>
 </body>
 </html>
+
 
 
 

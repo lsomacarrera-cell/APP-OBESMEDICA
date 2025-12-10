@@ -32,18 +32,7 @@
 
 <body class="bg-green-50 min-h-screen p-4">
 
-  <!-- BOTONES DE MENÚ -->
-  <div class="flex gap-4 justify-center mb-6">
-    <button onclick="mostrarSemanal()" 
-            class="bg-green-600 text-white px-4 py-2 rounded">
-      Seguimiento semanal
-    </button>
 
-    <button onclick="mostrarMensual()" 
-            class="bg-green-700 text-white px-4 py-2 rounded">
-      Seguimiento mensual
-    </button>
-  </div>
 
   <!-- ==========================
        BLOQUE: SEGUIMIENTO SEMANAL
@@ -60,6 +49,19 @@
         <img src="Obesmedica.png" alt="Obesmedica" class="h-20 w-auto" />
       </div>
 
+      <div class="flex gap-4 justify-center mb-6">
+  <button onclick="mostrarSemanal()" 
+          class="bg-green-600 text-white px-4 py-2 rounded">
+    Seguimiento semanal
+  </button>
+
+  <button onclick="mostrarMensual()" 
+          class="bg-green-700 text-white px-4 py-2 rounded">
+    Seguimiento mensual
+  </button>
+</div>
+
+
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <input id="fecha" type="date" class="border p-2 rounded w-full" />
         <select id="tipoDieta" class="border p-2 rounded w-full">
@@ -70,21 +72,33 @@
         <button onclick="agregarPeso()" class="bg-green-600 text-white p-2 rounded hover:bg-green-700">Añadir</button>
       </div>
 
-      <div class="flex gap-4 justify-center mb-4">
-        <button onclick="ordenarAsc()" class="bg-green-500 text-white px-4 py-2 rounded">⬆️ Antiguas primero</button>
-        <button onclick="ordenarDesc()" class="bg-green-700 text-white px-4 py-2 rounded">⬇️ Recientes primero</button>
-      </div>
-
+ 
       <table class="w-full mb-2">
-        <thead>
-          <tr class="bg-green-200">
-            <th class="p-2">Fecha</th>
-            <th class="p-2">Dieta</th>
-            <th class="p-2">Variación</th>
-            <th class="p-2">Peso (kg)</th>
-            <th class="p-2">Borrar</th>
-          </tr>
-        </thead>
+     <thead>
+  <tr class="bg-green-200">
+    <th class="p-2 flex items-center justify-center gap-2">
+
+      <!-- Flecha ascendente -->
+      <button onclick="ordenarAsc()" class="text-green-700 text-lg font-bold">
+        ⬆️
+      </button>
+
+      Fecha
+
+      <!-- Flecha descendente -->
+      <button onclick="ordenarDesc()" class="text-green-700 text-lg font-bold">
+        ⬇️
+      </button>
+
+    </th>
+
+    <th class="p-2">Dieta</th>
+    <th class="p-2">Variación</th>
+    <th class="p-2">Peso (kg)</th>
+    <th class="p-2">Borrar</th>
+  </tr>
+</thead>
+
         <tbody id="tabla"></tbody>
       </table>
 
@@ -362,6 +376,7 @@
   </script>
 </body>
 </html>
+
 
 
 

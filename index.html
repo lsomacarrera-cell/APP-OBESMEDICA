@@ -300,16 +300,22 @@ function actualizarMensual() {
 
   if (!tabla || !alturaInput) return;
 
-  const altura = parseFloat(alturaInput.value);
+ // Altura en centímetros
+const alturaCm = parseFloat(alturaInput.value);
 
-  if (isNaN(altura) || altura <= 0) {
-    tabla.innerHTML = `
-      <tr><td colspan="2" class="p-4 text-center text-red-600">
-        Introduce una altura válida.
-      </td></tr>
-    `;
-    return;
-  }
+// Validación
+if (isNaN(alturaCm) || alturaCm <= 0) {
+  tabla.innerHTML = `
+    <tr><td colspan="2" class="p-4 text-center text-red-600">
+      Introduce una altura válida.
+    </td></tr>
+  `;
+  return;
+}
+
+// Convertir a metros
+const altura = alturaCm / 100;
+
 
   tabla.innerHTML = "";
 
@@ -448,6 +454,7 @@ function mostrarMensual() {
   </script>
 </body>
 </html>
+
 
 
 

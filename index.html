@@ -307,30 +307,37 @@ function importarDatos(event) {
 
       textoEl.textContent = texto;
 
-      const sf = ordenados.filter(d => d.tipoDieta === "SF");
-      const cf = ordenados.filter(d => d.tipoDieta === "CF");
+// --- Comparativa SF vs CF (media por registro) ---
+let sumaSF = 0;   // suma de variaciones (negativo = bajas)
+let sumaCF = 0;
 
-      function perdida(arr) {
-        if (arr.length < 2) return 0;
-        const primero = arr[0].peso;
-        const ultimo = arr[arr.length - 1].peso;
-        return +(ultimo - primero).toFixed(1);
-      }
+let countSF = 0;  // cuántas veces aparece como "registro actual"
+let countCF = 0;
 
-      const perdidaSF = perdida(sf);
-      const perdidaCF = perdida(cf);
+for (let i = 1; i < ordenados.length; i++) {
+  const prev = ordenados[i - 1];
+  const curr = ordenados[i];
 
-      let textoSF =
-        perdidaSF < 0 ? `SF: ${Math.abs(perdidaSF)} kg perdidos` :
-        perdidaSF > 0 ? `SF: ${perdidaSF} kg ganados` :
-        `SF: sin cambios`;
+  const diff = +(curr.peso - prev.peso).toFixed(1); // + sube, - baja
 
-      let textoCF =
-        perdidaCF < 0 ? `CF: ${Math.abs(perdidaCF)} kg perdidos` :
-        perdidaCF > 0 ? `CF: ${perdidaCF} kg ganados` :
-        `CF: sin cambios`;
+  if (curr.tipoDieta === "SF") {
+    sumaSF += diff;
+    countSF++;
+  } else if (curr.tipoDieta === "CF") {
+    sumaCF += diff;
+    countCF++;
+  }
+}
 
-      desgloseEl.textContent = `${textoSF} | ${textoCF}`;
+const mediaSF = countSF ? +(sumaSF / countSF).toFixed(2) : 0;
+const mediaCF = countCF ? +(sumaCF / countCF).toFixed(2) : 0;
+
+const pctSF = datos.length ? ((datos.filter(d => d.tipoDieta === "SF").length / datos.length) * 100).toFixed(0) : "0";
+const pctCF = datos.length ? ((datos.filter(d => d.tipoDieta === "CF").length / datos.length) * 100).toFixed(0) : "0";
+
+desgloseEl.textContent =
+  `SF: ${mediaSF} kg/registro (${countSF} cambios, ${pctSF}%) | ` +
+  `CF: ${mediaCF} kg/registro (${countCF} cambios, ${pctCF}%)`;
     }
 // ==========================
 // SEGUIMIENTO MENSUAL
@@ -504,6 +511,7 @@ function mostrarMensual() {
   </script>
 </body>
 </html>
+
 
 
 

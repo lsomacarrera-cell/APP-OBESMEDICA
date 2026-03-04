@@ -1,10 +1,11 @@
 {
-  "name": "Control de Peso",
+ "name": "Evolución de mi Peso",
   "short_name": "Peso",
-  "start_url": "peso.html",
+  "start_url": "/APP-OBESMEDICA/",
+  "scope": "/APP-OBESMEDICA/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#16a34a",
+  "theme_color": "#16a34a"
   "icons": [
     {
       "src": "icon-192.png",
@@ -18,3 +19,4 @@
     }
   ]
 }
+

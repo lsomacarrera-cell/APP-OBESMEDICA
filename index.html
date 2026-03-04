@@ -351,16 +351,25 @@ const altura = alturaCm / 100;
       const indices = datos.map((_, i) => i);
       if (ordenActual === "desc") indices.reverse();
 
-      indices.forEach((idx) => {
-        const entry = datos[idx];
-        const variacion = variaciones[idx];
+     indices.forEach((idx) => {
+  const entry = datos[idx];
+  const variacion = variaciones[idx];
 
-        tabla.innerHTML += `
-          <tr class="border-b">
-            <td class="p-2">${formatearFecha(entry.fecha)}</td>
-            <td class="p-2">${entry.tipoDieta || "-"}</td>
-            <td class="p-2">${variacion}</td>
-            <td class="p-2">${entry.peso}</td>
+  let color = "text-gray-700";
+
+  if (variacion !== "-") {
+    const num = parseFloat(variacion);
+
+    if (num > 0) color = "text-red-600 font-bold";   // peso sube
+    if (num < 0) color = "text-green-600 font-bold"; // peso baja
+  }
+
+  tabla.innerHTML += `
+    <tr class="border-b">
+      <td class="p-2">${formatearFecha(entry.fecha)}</td>
+      <td class="p-2">${entry.tipoDieta || "-"}</td>
+      <td class="p-2 ${color}">${variacion}</td>
+      <td class="p-2">${entry.peso}</td>
             <td class="p-2 text-center">
               <button onclick="borrarPeso(${idx})" class="text-purple-600 font-bold text-xl">✖</button>
             </td>
@@ -454,6 +463,7 @@ function mostrarMensual() {
   </script>
 </body>
 </html>
+
 
 
 

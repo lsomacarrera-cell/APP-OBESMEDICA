@@ -187,31 +187,18 @@
       localStorage.setItem("registroPeso", JSON.stringify(datos));
     }
 function exportarDatos() {
-  try {
-    const dataStr = localStorage.getItem("registroPeso") || "[]";
+  const datosBackup = localStorage.getItem("registroPeso") || "[]";
 
-    const blob = new Blob([dataStr], {
-      type: "application/json"
-    });
+  const texto = "data:application/json;charset=utf-8," +
+    encodeURIComponent(datosBackup);
 
-    const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = texto;
+  a.download = "registroPeso_backup.json";
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "registroPeso_backup.json";
-
-    document.body.appendChild(a);
-    a.click();
-
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 1000);
-
-  } catch (error) {
-    alert("No se ha podido exportar el archivo.");
-    console.error(error);
-  }
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 function importarDatos(event) {

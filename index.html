@@ -189,32 +189,39 @@
 function exportarDatos() {
   const datosBackup = localStorage.getItem("registroPeso") || "[]";
 
-  const texto = "data:application/json;charset=utf-8," +
-    encodeURIComponent(datosBackup);
+  const blob = new Blob([datosBackup], {
+    type: "application/json"
+  });
 
-  const a = document.createElement("a");
-  a.href = texto;
-  a.download = "registroPeso_backup.json";
+  const archivo = new File(
+    [blob],
+    "registroPeso_backup.json",
+    { type: "application/json" }
+  );
 
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  // Intentar compartir el archivo desde el móvil
+  if (
+    navigator.share &&
+    navigator.canShare &&
+    navigator.canShare({ files: [archivo] })
+  ) {
+    navigator.share({
+      title: "Backup de mi peso",
+      text: "Copia de seguridad de mis registros de peso",
+      files: [archivo]
+    }).catch(() => {});
+    
+    return;
+  }
+
+  // Si no se puede compartir, abrir el JSON en una nueva pestaña
+  const url = URL.createObjectURL(blob);
+  window.open(url, "_blank");
+
+  setTimeout(() => {
+    URL.revokeObjectURL(url);
+  }, 10000);
 }
-
-function importarDatos(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const datosImportados = JSON.parse(e.target.result);
-
-    localStorage.setItem("registroPeso", JSON.stringify(datosImportados));
-
-    datos = datosImportados;
-    actualizarTabla();
-    actualizarGrafico();
-  };
 
   reader.readAsText(file);
 }

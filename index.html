@@ -223,8 +223,54 @@ function exportarDatos() {
   }, 10000);
 }
 
+    function importarDatos(event) {
+  const file = event.target.files[0];
+
+  if (!file) {
+    alert("No se ha seleccionado ningún archivo.");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    try {
+      const datosImportados = JSON.parse(e.target.result);
+
+      if (!Array.isArray(datosImportados)) {
+        alert("El archivo no contiene datos válidos.");
+        return;
+      }
+
+      if (!confirm("Esto reemplazará los datos actuales. ¿Quieres continuar?")) {
+        return;
+      }
+
+      datos = datosImportados;
+
+      datos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
+      guardar();
+      actualizarTabla();
+      actualizarGrafico();
+
+      alert("¡Datos importados correctamente! ✅");
+
+    } catch (error) {
+      alert("No se ha podido leer el archivo. Comprueba que sea el backup de esta aplicación.");
+      console.error(error);
+    }
+
+    event.target.value = "";
+  };
+
+  reader.onerror = function() {
+    alert("No se ha podido leer el archivo.");
+  };
+
   reader.readAsText(file);
 }
+    
     function formatearFecha(fechaISO) {
       if (!fechaISO) return "";
       const [a, m, d] = fechaISO.split("-");
